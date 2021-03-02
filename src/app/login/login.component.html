@@ -1,0 +1,55 @@
+<div class="arsenal-login-wrapper">
+    <h1 class="heading--large">To-Done</h1>
+    <div *ngIf="!isSignIn && !isLogin">
+        <button class="arsenal-button--primary a-mt--15" (click)='isSignIn=true'>Sign Up</button>
+        <button class="arsenal-button--secondary a-mt--15" (click)='isLogin=true'>Login</button>
+    </div>
+    <div *ngIf="isSignIn">
+        <label class="arsenal-label a-mt--20">Username</label>
+        <input class="arsenal-input"
+                [ngClass]="{'arsenal-input--error': errors.username}"
+                type="text"
+                [(ngModel)]="sUsername"
+                placeholder=""
+                (keyup)="checkUsernameAvailability(sUsername)">
+        <p [ngClass]="{'arsenal-para--error': errors.username}">{{errors.username}}</p>
+        <label class="arsenal-label a-mt--20">Password</label>
+        <input class="arsenal-input"
+                [ngClass]="{'arsenal-input--error': errors.password}"
+                type="password"
+                [(ngModel)]="sPassword"
+                placeholder="">
+        <p [ngClass]="{'arsenal-para--error': errors.password}">{{errors.password}}</p>
+        <label class="arsenal-label a-mt--20">Confirm password</label>
+        <input class="arsenal-input"
+                [ngClass]="{'arsenal-input--error': errors.confirmPassword}"
+                type="password"
+                [(ngModel)]="cPassword"
+                placeholder="">
+        <p [ngClass]="{'arsenal-para--error': errors.confirmPassword}">{{errors.confirmPassword}}</p>
+        <label class="arsenal-label a-mt--20">Are you a student?</label>
+        <select class="arsenal-select" 
+                [(ngModel)]="student" 
+                [ngClass]="{'arsenal-input--error': errors.confirmPassword}">
+                <option *ngFor="let option of studentOptions"
+                        [ngValue]="option">{{option}}</option>
+        </select>
+        <p [ngClass]="{'arsenal-para--error': errors.student}">{{errors.student}}</p>
+        <button class="arsenal-button--primary a-mt--20" (click)='signUp()'>Sign Up</button>
+        <button class="arsenal-button--secondary a-mt--15" (click)='back()'>Back</button>
+    </div>
+    <div *ngIf="isLogin">
+        <label class="arsenal-label a-mt--20">Username</label>
+        <input class="arsenal-input"
+                type="text"
+                [(ngModel)]="lUsername"
+                placeholder="">
+        <label class="arsenal-label a-mt--20">Password</label>
+        <input class="arsenal-input"
+                type="password"
+                [(ngModel)]="lPassword"
+                placeholder="">
+        <button class="arsenal-button--primary a-mt--20" (click)='login()'>Login</button>
+        <button class="arsenal-button--secondary a-mt--15" (click)='back()'>Back</button>
+    </div>
+</div>

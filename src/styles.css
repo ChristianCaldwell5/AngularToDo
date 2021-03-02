@@ -1,1 +1,131 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+    --primary: #6B7392;
+    --secondary:#2F3240;
+    --light: #FFF;
+    --dark: #000;
+}
+
+html, body { height: 100%; }
+body { 
+    margin: 0;
+    background-image: url("assets/photos/login_img.jpg");
+    background-size: cover;
+    background-blend-mode:lighten;
+    background-color: var(--primary);
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+.divider {
+    width: 100%;
+    height: 2px;
+    background-color: black;
+    margin: 15px 0;
+}
+
+.arsenal-login-wrapper {
+    margin: 0;
+    padding: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 25%;
+    box-shadow: 5px 10px 18px black;
+    transform: translate(-50%, -50%);
+    background-color: var(--secondary);
+    border-radius: 20px;
+}
+.heading--large {
+    font-size: 32px;
+    color: white;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+}
+
+.arsenal-button--primary {
+    width: 100%;
+    background-color: var(--primary);
+    color: var(--light);
+    position: relative;
+    border-style: none;
+    border-radius: 20px;
+    padding: 10px;
+
+    font-size: 1.5em;
+}
+.arsenal-button--secondary {
+    width: 100%;
+    background-color: var(--light);
+    color: var(--secondary);
+    position: relative;
+    border-style: none;
+    border-radius: 20px;
+    padding: 10px;
+
+    font-size: 1.5em;
+}
+button:focus {
+    outline: none;
+}
+input:focus {
+    outline: none;
+}
+select:focus {
+    outline: none;
+}
+
+.arsenal-label {
+    width: 100%;
+    text-align: left;
+    color: var(--light);
+    font-size: 1.5em;
+}
+.arsenal-input {
+    width: 100%;
+    position: relative;
+    border: none;
+    border-bottom: 2px solid white;
+    color: var(--light);
+    background-color: rgba(0, 0, 0, 0.4);
+
+    font-size: 1.5em;
+    padding: 5px 2px;
+}
+
+.arsenal-input--error {
+    animation: inputError 1s ease-in forwards;
+}
+.arsenal-para--error {
+    width: 100%;
+    position: relative;
+    color: red;
+    font-size: 1em;
+    padding: 5px 2px;
+    margin: 0;
+}
+
+.arsenal-select {
+    width: 100%;
+    position: relative;
+    color: var(--light);
+    border: none;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-bottom: 2px solid white;
+
+    font-size: 1.5em;
+    padding: 5px 2px;
+}
+.arsenal-select>option:hover {
+    cursor: pointer;
+}
+
+@keyframes inputError {
+    0% {
+        border-bottom: 2px solid white;
+    }
+    100% {
+        border-bottom: 2px solid red;
+    }
+}
