@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 :root {
-    --primary: #6B7392;
+    --primary: #008080;
     --secondary:#2F3240;
     --light: #FFF;
     --dark: #000;
@@ -10,12 +10,21 @@
 html, body { height: 100%; }
 body { 
     margin: 0;
-    background-image: url("assets/photos/login_img.jpg");
+    background-image: url("assets/photos/Mock1.png");
     background-size: cover;
-    background-blend-mode:lighten;
     background-color: var(--primary);
     font-family: Roboto, "Helvetica Neue", sans-serif; 
 }
+/* @media (prefers-color-scheme: dark) {
+    body {
+        background-image: url("assets/photos/Mock2.png");
+    }
+}
+@media (prefers-color-scheme: light) {
+    body {
+        background-image: url("assets/photos/Mock1.png");
+    }
+} */
 
 .divider {
     width: 100%;
@@ -30,18 +39,34 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 25%;
+    width: 35%;
     box-shadow: 5px 10px 18px black;
     transform: translate(-50%, -50%);
-    background-color: var(--secondary);
+    background-color: rgba(0, 0, 0, 0.9);
+    overflow: scroll;
     border-radius: 20px;
 }
+.arsenal-header-wrap {
+    display: inline-block;
+    width: 100%;
+}
 .heading--large {
-    font-size: 32px;
+    font-size: 4em;
     color: white;
     font-weight: bold;
     padding: 0;
     margin: 0;
+    float: left;
+}
+
+.arsenal-button--right {
+    float: right;
+    cursor: pointer;
+    font-size: 4em;
+    font-weight: bold;
+    display: inline-flex;
+    vertical-align: top;
+    color: var(--primary);
 }
 
 .arsenal-button--primary {
@@ -80,7 +105,7 @@ select:focus {
     width: 100%;
     text-align: left;
     color: var(--light);
-    font-size: 1.5em;
+    font-size: 1.75em;
 }
 .arsenal-input {
     width: 100%;
@@ -97,28 +122,123 @@ select:focus {
 .arsenal-input--error {
     animation: inputError 1s ease-in forwards;
 }
+.arsenal-input--success {
+    animation: inputSuccess 1s ease-in forwards;
+}
 .arsenal-para--error {
     width: 100%;
     position: relative;
     color: red;
     font-size: 1em;
-    padding: 5px 2px;
+    margin: 0;
+}
+.arsenal-para--success {
+    width: 100%;
+    position: relative;
+    color: green;
+    font-size: 1em;
     margin: 0;
 }
 
 .arsenal-select {
-    width: 100%;
+    width: 75%;
     position: relative;
     color: var(--light);
-    border: none;
-    background-color: rgba(0, 0, 0, 0.4);
-    border-bottom: 2px solid white;
+    background-color: rgba(0,0,0,0.95);
+    border: 2px solid var(--primary);
 
-    font-size: 1.5em;
-    padding: 5px 2px;
+    font-size: 2em;
+    padding: 5px;
 }
 .arsenal-select>option:hover {
     cursor: pointer;
+}
+
+/* inline form inputs/buttons */
+.arsenal-inline-input-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+.arsenal-inline-input {
+    display: inline-block;
+    width: 75%;
+    padding: 5px 0 5px 20px;
+    position: inherit;
+    background-color: rgba(0,0,0,0.95);
+    border: 2px solid var(--primary);
+    /* border: none; */
+    color: var(--light);
+    font-size: 2em;
+    border-radius: 20px 0 0 20px;
+}
+.arsenal-inline-button {
+    display: inline-block;
+    width: 25%;
+    padding: 5px 0;
+    font-size: 2em;
+    color: var(--light);
+    border: none;
+    border-radius: 0 20px 20px 0;
+    background-color: var(--primary);
+}
+
+.arsenal-form-requirements {
+    position: relative;
+    width: 100%;
+    font-size: 1.25em;
+    color: var(--light);
+}
+.arsenal-para {
+    position: relative;
+    color: var(--light);
+    font-size: 1.25em;
+}
+
+@media (max-width: 320px) {
+    .arsenal-login-wrapper {
+        width: 95%;
+        position: relative;
+        margin-top: 20px;
+    }
+}
+@media (min-width: 321px) and (max-width: 480px) {
+    .arsenal-login-wrapper {
+        width: 95%;
+    }
+}
+@media (max-width: 850px) and (orientation : landscape) {
+    .arsenal-login-wrapper {
+        width: 80%;
+        position: relative;
+        margin-top: 50px;
+    }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+    .arsenal-login-wrapper {
+        width: 80%;
+    }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+    .arsenal-login-wrapper {
+        width: 60%;
+    }
+}
+@media (min-width: 1025px) and (max-width: 1320px) {
+    .arsenal-login-wrapper {
+        width: 40%;
+    }
+}
+@media (min-width: 1320px) and (max-width: 1600px) {
+    .arsenal-login-wrapper {
+        width: 35%;
+    }
+}
+@media (min-width: 1600px) {
+    .arsenal-login-wrapper {
+        width: 35%;
+    }
 }
 
 @keyframes inputError {
@@ -127,5 +247,13 @@ select:focus {
     }
     100% {
         border-bottom: 2px solid red;
+    }
+}
+@keyframes inputSuccess {
+    0% {
+        border-bottom: 2px solid white;
+    }
+    100% {
+        border-bottom: 2px solid green;
     }
 }

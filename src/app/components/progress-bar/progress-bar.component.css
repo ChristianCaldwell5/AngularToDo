@@ -1,0 +1,38 @@
+.arsenal-progress-bar-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border: 2px solid var(--light);
+    border-radius: 20px;
+    overflow: hidden;
+}
+.arsenal-progress-bar-section {
+    position: inherit;
+    display: inline-block;
+    height: 25px;
+    width: 100%;
+}
+.arsenal-progress-prefill {
+    position: inherit;
+    display: inline-block;
+    width: 10%;
+    background-color: var(--primary);
+    height: 25px;
+}
+.arsenal-task-complete {
+    background-color: var(--primary);
+    border: 0.5px solid var(--primary);
+    animation: fadeIn 1s forwards;
+    animation-timing-function: ease-in;
+    height: 100%;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

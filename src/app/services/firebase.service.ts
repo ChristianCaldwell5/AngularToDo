@@ -10,16 +10,21 @@ export class FirebaseService {
         public firestore: AngularFirestore
     ) {}
 
-    public async checkUsernameAvailability(newUsername): Promise<boolean> {
+    public checkUsernameAvailability(newUsername): Promise<boolean> {
+        let available = false
         const usernameRef = this.firestore.collection('usernameLookup').doc(newUsername);
-        const doc = await usernameRef.get();
-
-        // if username is not found, return true
-        if(!doc) {
-            return true;
-        } else {
-            return false;
-        }
+        
+        return usernameRef.ref.get().then((docData) => {
+            if (docData.exists) {
+                available = false;
+                console.log('username not available')
+                return available
+            } else {
+                console.log('username available')
+                available = true;
+                return available
+            }
+        });
     }
 
     public async createUser(user) {
@@ -27,7 +32,7 @@ export class FirebaseService {
             username: user.username,
             password: user.password,
             student: user.isStudent
-        })
+        });
         let newUser = {
             username: user.username,
             id: newDocInfo.id
@@ -36,7 +41,7 @@ export class FirebaseService {
     }
 
     public setUsernameLookup(user) {
-        return this.firestore.collection('usernameLookup').doc(user.username).set({
+        this.firestore.collection('usernameLookup').doc(user.username).set({
             UID: user.id
         })
     }

@@ -1,42 +1,61 @@
 <div class="arsenal-login-wrapper">
-    <h1 class="heading--large">To-Done</h1>
-    <div *ngIf="!isSignIn && !isLogin">
-        <button class="arsenal-button--primary a-mt--15" (click)='isSignIn=true'>Sign Up</button>
+    <div class="arsenal-header-wrap">
+        <h1 *ngIf="!isSignUp && !isLogin" class="heading--large">To-Done</h1>
+        <h1 *ngIf="isSignUp && !isCompletedSignUp" class="heading--large">Sign-Up</h1>
+        <h1 *ngIf="isCompletedSignUp" class="heading--large">All done!</h1>
+        <h1 *ngIf="isLogin" class="heading--large">Login</h1>
+        <span *ngIf="isSignUp || isLogin" (click)="back()" class="material-icons arsenal-button--right a-fs--4em">clear</span>
+    </div>
+    <div *ngIf="!isSignUp && !isLogin">
+        <button class="arsenal-button--primary a-mt--15" (click)='isSignUp=true'>Sign Up</button>
         <button class="arsenal-button--secondary a-mt--15" (click)='isLogin=true'>Login</button>
     </div>
-    <div *ngIf="isSignIn">
-        <label class="arsenal-label a-mt--20">Username</label>
-        <input class="arsenal-input"
-                [ngClass]="{'arsenal-input--error': errors.username}"
-                type="text"
-                [(ngModel)]="sUsername"
-                placeholder=""
-                (keyup)="checkUsernameAvailability(sUsername)">
-        <p [ngClass]="{'arsenal-para--error': errors.username}">{{errors.username}}</p>
-        <label class="arsenal-label a-mt--20">Password</label>
-        <input class="arsenal-input"
-                [ngClass]="{'arsenal-input--error': errors.password}"
-                type="password"
-                [(ngModel)]="sPassword"
-                placeholder="">
-        <p [ngClass]="{'arsenal-para--error': errors.password}">{{errors.password}}</p>
-        <label class="arsenal-label a-mt--20">Confirm password</label>
-        <input class="arsenal-input"
-                [ngClass]="{'arsenal-input--error': errors.confirmPassword}"
-                type="password"
-                [(ngModel)]="cPassword"
-                placeholder="">
-        <p [ngClass]="{'arsenal-para--error': errors.confirmPassword}">{{errors.confirmPassword}}</p>
-        <label class="arsenal-label a-mt--20">Are you a student?</label>
-        <select class="arsenal-select" 
-                [(ngModel)]="student" 
-                [ngClass]="{'arsenal-input--error': errors.confirmPassword}">
-                <option *ngFor="let option of studentOptions"
-                        [ngValue]="option">{{option}}</option>
-        </select>
-        <p [ngClass]="{'arsenal-para--error': errors.student}">{{errors.student}}</p>
-        <button class="arsenal-button--primary a-mt--20" (click)='signUp()'>Sign Up</button>
-        <button class="arsenal-button--secondary a-mt--15" (click)='back()'>Back</button>
+    <div *ngIf="isSignUp">
+        <div *ngIf="!tasks[0]" class="a-mb--20">
+            <label class="arsenal-label a-mt--20 a-mb--20">Let's start up your account! What username would you like?</label>
+            <div class="arsenal-inline-input-wrapper">
+                    <input class="arsenal-inline-input"
+                        type="text"
+                        [(ngModel)]="sUsername">
+                    <button (click)="next(1)" class="arsenal-inline-button">Next</button>
+            </div>
+            <p *ngIf="errors.username" class="arsenal-para--error a-mt--10">{{errors.username}}</p>
+            <p class="arsenal-para a-mt--20">Requirements:</p>
+            <ul class="arsenal-form-requirements a-mb--20">
+                    <li>Should be at least 3 characters with no spaces or special characters</li>
+            </ul>
+        </div>
+        <div *ngIf="tasks[0] && !tasks[1]">
+            <label class="arsenal-label a-mt--20 a-mb--20">Nice to meet you, <span class="a-fc--primary">{{sUsername}}</span>! Enter a strong password for your account:</label>
+            <div class="arsenal-inline-input-wrapper">
+                    <input class="arsenal-inline-input"
+                        type="password"
+                        [(ngModel)]="sPassword">
+                    <button (click)="next(2)" class="arsenal-inline-button">Next</button>
+            </div>
+            <p *ngIf="errors.password" class="arsenal-para--error a-mt--10">{{errors.password}}</p>
+            <p class="arsenal-para a-mt--20">Requirements:</p>
+            <ul class="arsenal-form-requirements a-mb--20">
+                <li>Should be at least 6 characters</li>
+            </ul>
+        </div>
+        <div *ngIf="tasks[1] && !tasks[2]">
+            <label class="arsenal-label a-mt--20 a-mb--20">Are you a student?</label>
+            <div class="arsenal-inline-input-wrapper a-mb--20">
+                <select class="arsenal-select"
+                        [(ngModel)]="student">
+                    <option *ngFor="let option of studentOptions">{{option}}</option>
+                </select>
+                <button (click)="next(3)" class="arsenal-inline-button">Sign Up</button>
+            </div>
+            <p *ngIf="errors.student" class="arsenal-para--error a-mt--10">{{errors.student}}</p>
+            <p class="arsenal-para a-mt--20 a-mb--20">Why? If a student, we will provide additional school related labels to organize your to-do list!</p>
+        </div>
+        <div *ngIf="isCompletedSignUp">
+            <p class="arsenal-para a-mt--20">That's it! Your account has been registered. Click the button below to begin turning your todo's, into done's</p>
+            <button (click)="signIn()" class="arsenal-button--primary a-mt--15 a-mb--20">Get Started</button>
+        </div>
+        <app-progress-bar [stages]="tasks"></app-progress-bar>
     </div>
     <div *ngIf="isLogin">
         <label class="arsenal-label a-mt--20">Username</label>
@@ -50,6 +69,5 @@
                 [(ngModel)]="lPassword"
                 placeholder="">
         <button class="arsenal-button--primary a-mt--20" (click)='login()'>Login</button>
-        <button class="arsenal-button--secondary a-mt--15" (click)='back()'>Back</button>
     </div>
 </div>
