@@ -53,7 +53,7 @@
         </div>
         <div *ngIf="isCompletedSignUp">
             <p class="arsenal-para a-mt--20">That's it! Your account has been registered. Click the button below to begin turning your todo's, into done's</p>
-            <button (click)="signIn()" class="arsenal-button--primary a-mt--15 a-mb--20">Get Started</button>
+            <button (click)="continue()" class="arsenal-button--primary a-mt--15 a-mb--20">Get Started</button>
         </div>
         <app-progress-bar [stages]="tasks"></app-progress-bar>
     </div>

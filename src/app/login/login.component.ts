@@ -92,8 +92,7 @@ export class LoginComponent implements OnInit {
       res => {
         this.clearFields();
         this.isCompletedSignUp = true;
-        this.sessionService.activeUser = this.newUser.username;
-        console.log(this.sessionService.activeUser);
+        this.sessionService.setUser(this.newUser.username);
       },
       error => {
         this.errors.siteFail = "Looks like we had trouble creating your account :( Please try again later!";
@@ -182,6 +181,10 @@ export class LoginComponent implements OnInit {
     this.isSignUp = false;
     this.isLogin = false;
     this.clearFields();
+  }
+
+  public continue(): void {
+    this.router.navigateByUrl('/home');
   }
 
 }

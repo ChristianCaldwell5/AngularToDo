@@ -10,8 +10,6 @@
 html, body { height: 100%; }
 body { 
     margin: 0;
-    background-image: url("assets/photos/Mock1.png");
-    background-size: cover;
     background-color: var(--primary);
     font-family: Roboto, "Helvetica Neue", sans-serif; 
 }
