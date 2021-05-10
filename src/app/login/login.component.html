@@ -39,17 +39,16 @@
                 <li>Should be at least 6 characters</li>
             </ul>
         </div>
-        <div *ngIf="tasks[1] && !tasks[2]">
-            <label class="arsenal-label a-mt--20 a-mb--20">Are you a student?</label>
-            <div class="arsenal-inline-input-wrapper a-mb--20">
-                <select class="arsenal-select"
-                        [(ngModel)]="student">
-                    <option *ngFor="let option of studentOptions">{{option}}</option>
-                </select>
-                <button (click)="next(3)" class="arsenal-inline-button">Sign Up</button>
+        <div *ngIf="tasks[1] && !tasks[2]" class="a-mb--20">
+            <label class="arsenal-label a-mt--20 a-mb--20">What is a good email?</label>
+            <div class="arsenal-inline-input-wrapper">
+                    <input class="arsenal-inline-input"
+                        type="text"
+                        [(ngModel)]="sEmail">
+                    <button (click)="next(3)" class="arsenal-inline-button">Sign Up</button>
             </div>
-            <p *ngIf="errors.student" class="arsenal-para--error a-mt--10">{{errors.student}}</p>
-            <p class="arsenal-para a-mt--20 a-mb--20">Why? If a student, we will provide additional school related labels to organize your to-do list!</p>
+            <p *ngIf="errors.email" class="arsenal-para--error a-mt--10">{{errors.email}}</p>
+            <p class="arsenal-para a-mt--20 a-mb--20">We use your email for account recovery and app notificatons only. Read more in our Privacy Policy.</p>
         </div>
         <div *ngIf="isCompletedSignUp">
             <p class="arsenal-para a-mt--20">That's it! Your account has been registered. Click the button below to begin turning your todo's, into done's</p>
@@ -58,6 +57,7 @@
         <app-progress-bar [stages]="tasks"></app-progress-bar>
     </div>
     <div *ngIf="isLogin">
+        <p *ngIf="errors.failedLogin" class="arsenal-para--error a-mt--10">{{errors.failedLogin}}</p>
         <label class="arsenal-label a-mt--20">Username</label>
         <input class="arsenal-full-input"
                 type="text"

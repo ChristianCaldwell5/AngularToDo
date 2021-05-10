@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
 import { SessionService } from '../services/session.service';
 import * as bcrypt from 'bcryptjs';
-import { error } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +15,7 @@ export class LoginComponent implements OnInit {
   public errors = {
     username: '',
     password: '',
+    email: '',
     confirmPassword: '',
     student: '',
     failedLogin: '',
@@ -30,13 +30,8 @@ export class LoginComponent implements OnInit {
   public tasks = Array(3).fill(false);
   public sUsername: string = '';
   public sPassword: string = '';
+  public sEmail: string = '';
   public cPassword: string = '';
-  public studentOptions: Array<string> = [
-    'Select an option',
-    'Yes',
-    'No'
-  ];
-  public student: string = this.studentOptions[0];
   public usernameAvailability: boolean;
   public usernameAvailabilityMsg: string = '';
   public msgOptions = {
@@ -53,11 +48,12 @@ export class LoginComponent implements OnInit {
   private newUser = {
     username: '',
     password: '',
-    isStudent: false
+    email: '',
+    id: ''
   }
   private returningUser = {
     username: '',
-    password: ''
+    id: ''
   }
 
   constructor(
@@ -92,7 +88,7 @@ export class LoginComponent implements OnInit {
       res => {
         this.clearFields();
         this.isCompletedSignUp = true;
-        this.sessionService.setUser(this.newUser.username);
+        this.sessionService.setNewUser(this.newUser.username);
       },
       error => {
         this.errors.siteFail = "Looks like we had trouble creating your account :( Please try again later!";
@@ -124,12 +120,11 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  private validateStudent(student: string): boolean {
-    if (student === 'Select an option') {
-      this.errors.student = 'Please select yes or no :)';
-      return false;
-    } else {
+  private validateEmail(email: string): boolean {
+    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
       return true;
+    } else {
+      return false;
     }
   }
 
@@ -145,14 +140,16 @@ export class LoginComponent implements OnInit {
       if (isPasswordValid) {
         this.tasks[1] = true;
         this.newUser.password = bcrypt.hashSync(this.sPassword, 10);
-        console.log(this.newUser.password);
       }
     } else if (task === 3) {
-      const isStudentValid = this.validateStudent(this.student);
-      if (isStudentValid) {
+      const isEmailValid = this.validateEmail(this.sEmail);
+      if (isEmailValid) {
         this.tasks[2] = true;
-        this.newUser.isStudent = true ? this.student === "Yes" : false;
+        this.newUser.email = this.sEmail;
         this.signUp();
+      } else {
+        this.errors.email = 'Please enter a valid email :P'
+        this.clearFields();
       }
     }
   }
@@ -160,11 +157,12 @@ export class LoginComponent implements OnInit {
   private clearFields(): void {
     this.sUsername = '';
     this.sPassword = '';
-    this.cPassword = '';
-    this.sUsername = '';
-    this.sPassword = '';
+    this.sEmail = '';
+
+    this.lUsername = '';
+    this.lPassword = '';
+
     this.usernameAvailabilityMsg = '';
-    this.student = this.studentOptions[0];
 
     this.errors.username = '';
     this.errors.password = '';
@@ -186,20 +184,19 @@ export class LoginComponent implements OnInit {
 
   public login(): void {
     this.returningUser.username = this.lUsername;
-    this.returningUser.password = this.lPassword;
     let pass;
     //this.firebaseService.getSecurePassword(this.returningUser);
     this.firebaseService.getSecurePassword(this.returningUser).subscribe(res => {
       res.filter(x => {
         pass = x.payload.doc.get('password');
-        console.log(pass);
+        this.returningUser.id = x.payload.doc.id;
       });
       if (bcrypt.compareSync(this.lPassword, pass)) {
-          console.log('MATCHING');
-          return true;
+        this.sessionService.setReturningUser(this.returningUser);
+        this.continue();
       } else {
-          console.log('DENIED');
-          return false;
+        this.clearFields();
+        this.errors.failedLogin = 'Username or password is incorrect :( Try again?';
       }
     });
   }
