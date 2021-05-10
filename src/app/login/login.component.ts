@@ -140,15 +140,13 @@ export class LoginComponent implements OnInit {
         this.tasks[0] = true;
         this.newUser.username = this.sUsername;
       }
-      return;
     } else if (task === 2) {
       const isPasswordValid = this.validatePassword(this.sPassword);
       if (isPasswordValid) {
         this.tasks[1] = true;
-        this.newUser.password === this.sPassword
-        this.newUser.password = bcrypt.hashSync(this.newUser.password, 10);
+        this.newUser.password = bcrypt.hashSync(this.sPassword, 10);
+        console.log(this.newUser.password);
       }
-      return;
     } else if (task === 3) {
       const isStudentValid = this.validateStudent(this.student);
       if (isStudentValid) {
@@ -156,7 +154,6 @@ export class LoginComponent implements OnInit {
         this.newUser.isStudent = true ? this.student === "Yes" : false;
         this.signUp();
       }
-      return
     }
   }
 
@@ -185,6 +182,26 @@ export class LoginComponent implements OnInit {
 
   public continue(): void {
     this.router.navigateByUrl('/home');
+  }
+
+  public login(): void {
+    this.returningUser.username = this.lUsername;
+    this.returningUser.password = this.lPassword;
+    let pass;
+    //this.firebaseService.getSecurePassword(this.returningUser);
+    this.firebaseService.getSecurePassword(this.returningUser).subscribe(res => {
+      res.filter(x => {
+        pass = x.payload.doc.get('password');
+        console.log(pass);
+      });
+      if (bcrypt.compareSync(this.lPassword, pass)) {
+          console.log('MATCHING');
+          return true;
+      } else {
+          console.log('DENIED');
+          return false;
+      }
+    });
   }
 
 }

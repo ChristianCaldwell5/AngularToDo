@@ -1,4 +1,4 @@
-body {
-    background-image: url("/assets/photos/Mock1.png");
+::ng-deep body {
+    background-image: url("/assets/photos/Mock1.png") !important;
     background-size: cover;
 }

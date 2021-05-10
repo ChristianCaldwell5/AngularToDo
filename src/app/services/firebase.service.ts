@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class FirebaseService {
+
+    public hashedPass: string;
     
     constructor (
         public firestore: AngularFirestore
@@ -38,6 +41,47 @@ export class FirebaseService {
             id: newDocInfo.id
         }
         this.setUsernameLookup(newUser)
+    }
+
+    // public loginAttempt(user): boolean {
+    //     let pass = this.firestore.collection('users', ref => ref.where('username', '==', user.username)).snapshotChanges();
+    //     pass.subscribe(result => {
+    //         console.log(result)
+    //     })
+    //     if (bcrypt.compareSync(user.password, pass)) {
+    //         console.log('MATCHING');
+    //         return true;
+    //     } else {
+    //         console.log('DENIED');
+    //         return false;
+    //     }
+    //     let verified = false;
+    //     const userDocRef = this.firestore.collection('users').ref;
+    //     if (userDocRef) {
+    //         userDocRef.where('username', '==', user.username)
+    //             .get()
+    //             .then(function(quertSnapshot) {
+    //                 quertSnapshot.forEach(function(doc) {
+    //                     const docInfo = doc.data() as any;
+    //                     const docPassword = docInfo.password;
+    //                     if (bcrypt.compareSync(user.password, docPassword)) {
+    //                         console.log('MATCHING');
+    //                         verified = true;
+    //                         return true;
+    //                     } else {
+    //                         console.log('DENIED');
+    //                         verified = false;
+    //                         return false;
+    //                     }
+    //                 });
+    //             });
+    //     }
+    //     console.log(verified);
+    //     return verified;
+    // }
+
+    public getSecurePassword(user) {
+        return this.firestore.collection('users', ref => ref.where('username', '==', user.username)).snapshotChanges();
     }
 
     public setUsernameLookup(user) {
