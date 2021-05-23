@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵSWITCH_COMPILE_INJECTABLE__POST_R3__ } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
 import { SessionService } from '../services/session.service';
@@ -53,7 +53,8 @@ export class LoginComponent implements OnInit {
   }
   private returningUser = {
     username: '',
-    id: ''
+    id: '',
+    lists: []
   }
 
   constructor(
@@ -88,7 +89,6 @@ export class LoginComponent implements OnInit {
       res => {
         this.clearFields();
         this.isCompletedSignUp = true;
-        this.sessionService.setNewUser(this.newUser.username);
       },
       error => {
         this.errors.siteFail = "Looks like we had trouble creating your account :( Please try again later!";
@@ -97,18 +97,30 @@ export class LoginComponent implements OnInit {
   }
 
   private validateUsername(username: string): boolean {
-    // if (this.usernameAvailabilityMsg === this.msgOptions.unavailable) {
-    //   return false;
-    // }
-    if (username === '') {
+    // this.checkUsernameAvailability(username);
+    if (this.usernameAvailabilityMsg) {
+      this.errors.username = 'Looks like that username is taken. Try another? :)';
+      return false;
+    } else if (username === '') {
       this.errors.username = 'Hold on there! We know you are excited but don\'t forget to enter a username!';
       return false;
     } else if (username.length < 3) {
       this.errors.username = 'Don\'t be shy, usernames need to be three characters or more!';
       return false;
     } else {
+      this.usernameAvailabilityMsg = '';
       return true;
     }
+  }
+
+  private async checkUsernameAvailability(username: string): Promise<void> {
+    return await this.firebaseService.checkUsernameAvailability(username).then(res => {
+      this.usernameAvailability = res;
+      console.log(this.usernameAvailability);
+      if (!this.usernameAvailability) {
+        this.usernameAvailabilityMsg = this.msgOptions.unavailable;
+      }
+    });
   }
 
   private validatePassword(password: string): boolean {
@@ -131,6 +143,7 @@ export class LoginComponent implements OnInit {
   public next(task: number): void {
     if (task === 1) {
       const isUsernameValid = this.validateUsername(this.sUsername);
+      console.log(isUsernameValid);
       if (isUsernameValid) {
         this.tasks[0] = true;
         this.newUser.username = this.sUsername;
@@ -178,21 +191,21 @@ export class LoginComponent implements OnInit {
     this.clearFields();
   }
 
-  public continue(): void {
+  public async continue(): Promise<void> {
     this.router.navigateByUrl('/home');
   }
 
   public login(): void {
     this.returningUser.username = this.lUsername;
     let pass;
-    //this.firebaseService.getSecurePassword(this.returningUser);
-    this.firebaseService.getSecurePassword(this.returningUser).subscribe(res => {
+    this.firebaseService.getUserInfo(this.returningUser).subscribe(res => {
       res.filter(x => {
         pass = x.payload.doc.get('password');
         this.returningUser.id = x.payload.doc.id;
+        this.returningUser.lists = x.payload.doc.get('lists');
       });
       if (bcrypt.compareSync(this.lPassword, pass)) {
-        this.sessionService.setReturningUser(this.returningUser);
+        this.sessionService.setUser(this.returningUser);
         this.continue();
       } else {
         this.clearFields();

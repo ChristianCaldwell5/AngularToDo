@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable, Subject } from 'rxjs';
 import { SessionService } from '../services/session.service';
 
 @Injectable({
@@ -14,19 +15,19 @@ export class FirebaseService {
         public sessionService: SessionService
     ) {}
 
-    public checkUsernameAvailability(newUsername): Promise<boolean> {
-        let available = false
+    public async checkUsernameAvailability(newUsername) {
+        let available = false;
         const usernameRef = this.firestore.collection('usernameLookup').doc(newUsername);
         
-        return usernameRef.ref.get().then((docData) => {
+        return await usernameRef.ref.get().then((docData) => {
             if (docData.exists) {
                 available = false;
                 console.log('username not available')
-                return available
+                return available;
             } else {
                 console.log('username available')
                 available = true;
-                return available
+                return available;
             }
         });
     }
@@ -35,17 +36,31 @@ export class FirebaseService {
         const newDocInfo = await this.firestore.collection('users').add({
             username: user.username,
             password: user.password,
-            email: user.email
+            email: user.email,
+            lists: [
+                {
+                    "name": "24/7 List",
+                    "active": false,
+                    "items": []
+                }
+            ]
         });
         let newUser = {
             username: user.username,
-            id: newDocInfo.id
+            id: newDocInfo.id,
+            lists: [
+                {
+                    "name": "24/7 List",
+                    "active": false,
+                    "items": []
+                }
+            ]
         }
-        this.sessionService.setNewUserId(newUser.id);
+        this.sessionService.setUser(newUser);
         this.setUsernameLookup(newUser);
     }
 
-    public getSecurePassword(user) {
+    public getUserInfo(user) {
         return this.firestore.collection('users', ref => ref.where('username', '==', user.username)).snapshotChanges();
     }
 

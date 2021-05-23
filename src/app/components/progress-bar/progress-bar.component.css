@@ -10,15 +10,15 @@
 .arsenal-progress-bar-section {
     position: inherit;
     display: inline-block;
-    height: 25px;
+    height: 15px;
     width: 100%;
 }
 .arsenal-progress-prefill {
     position: inherit;
     display: inline-block;
-    width: 10%;
+    width: 5%;
     background-color: var(--primary);
-    height: 25px;
+    height: 15px;
 }
 .arsenal-task-complete {
     background-color: var(--primary);

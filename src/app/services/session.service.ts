@@ -7,7 +7,8 @@ export class SessionService {
 
   private activeUser = {
     username: "",
-    id: ""
+    id: "",
+    lists: []
   };
 
   constructor() { }
@@ -16,18 +17,10 @@ export class SessionService {
     return this.activeUser;
   }
 
-  public setReturningUser(user): void {
+  public setUser(user): void {
     this.activeUser.username = user.username;
     this.activeUser.id = user.id;
-  }
-
-  public setNewUser(username: string): void {
-    this.activeUser.username = username
-  }
-
-  public setNewUserId(id: string): void {
-    this.activeUser.id = id;
-    console.log(this.activeUser);
+    this.activeUser.lists = user.lists;
   }
 
 }

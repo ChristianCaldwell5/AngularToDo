@@ -1,1 +1,41 @@
-<p>home works!</p>
+<div class="arsenal-content a-mt--50">
+    <div class="arsenal-flex-container">
+        <div id="recommended-wrapper">
+            <div class="dashboard-card">
+                <h1 class="heading--large">Dashboard</h1>
+            </div>
+        </div>
+        <div id="profile-wrapper">
+            <div class="dashboard-card">
+                <h1 class="heading--large">Profile</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Show List -->
+    <div class="list-section">
+        <div class="list-section-title">
+            <h1 class="heading--medium">Your List</h1>
+        </div>
+        <div class="list-container a-mt--15">
+            <ng-container *ngFor="let list of lists; let i = index">
+                <div class="list-card" (click)="viewList(i)">
+                    <div class="list-header">
+                        <p class="heading--small">{{list.name}}</p>
+                        <span class="material-icons list-add-icon">add_circle</span>
+                    </div>
+                    <p *ngIf='list.items.length == 0' class="list-peek a-mt--15">No items in this list right now.</p>
+                    <p *ngIf='list.items.length == 0' class="a-mt--15">Click this card to add a task!</p>
+                    <app-progress-bar *ngIf='list.items.length != 0' [stages]="list.items"></app-progress-bar>
+                </div>
+            </ng-container>
+            <div class="list-card list-card--add">
+                <div class="list-add--row">
+                    <div class="arsenal-divider"></div>
+                    <span class="material-icons list-add--icon">add_circle</span>
+                    <div class="arsenal-divider"></div>
+                </div>
+                <p>New List</p>
+            </div>
+        </div>
+    </div>
+</div>
