@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, Subject } from 'rxjs';
+import firebase from 'firebase/app';
 import { SessionService } from '../services/session.service';
+import { ListService } from '../services/list.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +14,7 @@ export class FirebaseService {
     
     constructor (
         public firestore: AngularFirestore,
+        public listService: ListService,
         public sessionService: SessionService
     ) {}
 
@@ -68,6 +71,27 @@ export class FirebaseService {
         this.firestore.collection('usernameLookup').doc(user.username).set({
             UID: user.id
         })
+    }
+
+    public addList(user, listName: string): boolean {
+        console.log(user);
+        for (let i = 0; i < user.lists.length; i++) {
+            if (user.lists[i].name === listName) {
+                return false;
+            }
+        }
+        let item = {
+            "name": listName,
+            "active": false,
+            "items": []
+        }
+        this.listService.setSelectedList(item);
+        this.sessionService.updateList(item);
+        let docRef = this.firestore.collection('users').doc(user.id);
+        docRef.update({
+            lists: firebase.firestore.FieldValue.arrayUnion(item)
+        });
+        return true;
     }
 
 }

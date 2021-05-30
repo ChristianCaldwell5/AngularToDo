@@ -9,6 +9,7 @@
 
 body { 
     margin: 0;
+    padding: 0;
     background-color: var(--primary);
     font-family: Roboto, "Helvetica Neue", sans-serif; 
 }
@@ -225,12 +226,34 @@ select:focus {
     width: 95%;
     max-width: 1400px;
     margin: 0 auto;
+    position: relative;
 }
 
 .arsenal-flex-container {
     display: flex;
     justify-content: center;
     flex-direction: row;
+}
+
+/* Modals */
+.arsenal-modal-container {
+    position: absolute;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    height: 100vh;
+    width: 100vw;
+    z-index: 100;
+    top: 0;
+}
+.arsenal-modal {
+    width: 35%;
+    padding: 30px;
+    background-color: black;
+    box-shadow: 5px 10px 18px black;
+    border: 2px solid var(--primary);
+    border-radius: 15px;
 }
 
 @media (max-width: 950px) {

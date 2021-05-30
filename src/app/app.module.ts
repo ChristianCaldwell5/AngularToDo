@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { MatSliderModule } from '@angular/material/slider';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CookieService } from 'ngx-cookie-service';
+
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 import { HomeComponent } from './home/home.component';
 import { ListComponent } from './list/list.component';
@@ -31,7 +33,7 @@ import { ListComponent } from './list/list.component';
     MatSliderModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
