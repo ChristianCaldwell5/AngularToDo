@@ -256,6 +256,19 @@ select:focus {
     border-radius: 15px;
 }
 
+.arsenal-back {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(0,0,0,0.90);
+    border: none;
+    padding: 5px 10px 5px 0;
+    border-radius: 15px;
+}
+.arsenal-back:hover {
+    box-shadow: 5px 10px 18px black;
+}
+
 @media (max-width: 950px) {
     .arsenal-flex-container {
         flex-direction: column;

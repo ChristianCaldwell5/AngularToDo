@@ -17,7 +17,7 @@ export class ProgressBarComponent implements OnInit {
   public get completed(): number {
     let numCompleted = 0
     this.stages.forEach(element => {
-      if (element === true) {
+      if (element.completed === true) {
         numCompleted += 1;
       }
     });

@@ -84,6 +84,7 @@ export class LoginComponent implements OnInit {
   // }
 
   public signUp(): void {
+    this.sessionService.setUser(this.newUser);
     this.firebaseService.createUser(this.newUser)
     .then(
       res => {

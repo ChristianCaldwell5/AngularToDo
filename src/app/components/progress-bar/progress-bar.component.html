@@ -1,8 +1,8 @@
 <div class="arsenal-progress-bar-wrapper">
-    <div [ngClass]="{'arsenal-progress-prefill': !stages[0]}"></div>
+    <div [ngClass]="{'arsenal-progress-prefill': !stages[0].completed}"></div>
     <div class="arsenal-progress-bar-section" *ngFor="let stage of stages">
-        <div [ngClass]="{'arsenal-task-complete': stage === true}"></div>
+        <div [ngClass]="{'arsenal-task-complete': stage.completed === true}"></div>
     </div>
 </div>
-<p *ngIf="!stages[stages.length-1]" class="arsenal-para a-mt--5 a-mb--0">Completed: {{completed}}/{{stages.length}}</p>
-<p *ngIf="stages[stages.length-1]" class="arsenal-para a-mt--5 a-mb--0">Completed!</p>
+<p *ngIf="!stages[stages.length-1].completed" class="arsenal-para a-mt--5 a-mb--0">Completed: {{completed}}/{{stages.length}}</p>
+<p *ngIf="stages[stages.length-1].completed" class="arsenal-para a-mt--5 a-mb--0">Completed!</p>

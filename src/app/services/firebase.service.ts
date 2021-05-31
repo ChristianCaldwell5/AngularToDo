@@ -74,7 +74,6 @@ export class FirebaseService {
     }
 
     public addList(user, listName: string): boolean {
-        console.log(user);
         for (let i = 0; i < user.lists.length; i++) {
             if (user.lists[i].name === listName) {
                 return false;
@@ -85,13 +84,25 @@ export class FirebaseService {
             "active": false,
             "items": []
         }
-        this.listService.setSelectedList(item);
         this.sessionService.updateList(item);
+        this.listService.setSelectedList(item, user.lists.length-1);
         let docRef = this.firestore.collection('users').doc(user.id);
         docRef.update({
             lists: firebase.firestore.FieldValue.arrayUnion(item)
         });
         return true;
+    }
+
+    public addItem(user, item: object) {
+        let docRef = this.firestore.collection('users').doc(user.id);
+        this.firestore.collection('users').doc(user.id).get().subscribe(res => {
+            let localLists = res.get('lists');
+            localLists[this.listService.getSelectedIndex()].items = localLists[this.listService.getSelectedIndex()].items.concat(item);
+            docRef.update({
+                lists: localLists
+            });
+            this.listService.updateListCookie(localLists[this.listService.getSelectedIndex()]);
+        });
     }
 
 }

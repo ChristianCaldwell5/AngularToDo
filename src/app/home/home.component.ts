@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
   }
 
   public viewList(listLocation: number) {
-    this.listService.setSelectedList(this.lists[listLocation]);
+    this.listService.setSelectedList(this.lists[listLocation], listLocation);
     this.router.navigateByUrl('/list');
   }
 

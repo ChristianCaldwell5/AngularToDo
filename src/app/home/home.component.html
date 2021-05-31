@@ -41,8 +41,11 @@
                         <p class="heading--small">{{list.name}}</p>
                         <span class="material-icons list-add-icon">add_circle</span>
                     </div>
+                    <!-- No Items -->
                     <p *ngIf='list.items.length == 0' class="list-peek a-mt--15">No items in this list right now.</p>
                     <p *ngIf='list.items.length == 0' class="a-mt--15">Click this card to add a task!</p>
+                    <!-- Has Items -->
+                    <p *ngIf='list.items.length != 0' class="list-peek a-mt--15 a-mb--15">Next up: {{list.items[0].name}}</p>
                     <app-progress-bar *ngIf='list.items.length != 0' [stages]="list.items"></app-progress-bar>
                 </div>
             </ng-container>
