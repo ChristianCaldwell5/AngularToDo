@@ -7,10 +7,10 @@
             <label class="arsenal-label a-mt--20">Item name</label>
             <input class="arsenal-full-input"
                     type="text"
-                    [(ngModel)]="itemName"
+                    [(ngModel)]="newItemName"
                     placeholder="">
             <p class="arsenal-para--error a-mt--20"></p>
-            <button (click)="createNewItem(itemName)" class="arsenal-button--primary a-mt--20">Create</button>
+            <button (click)="createNewItem(newItemName)" class="arsenal-button--primary a-mt--20">Create</button>
         </div>
     </div>
 </div>
@@ -28,8 +28,11 @@
         </div>
     </div>
     <div class="list">
-        <div class="item" *ngFor="let item of list.items">
+        <div class="item" *ngFor="let item of list.items; let i = index">
             <p>{{item.name}}</p>
+            <div class="item-action">
+                <span [ngClass]="{'item-action--light': i%2==0, 'item-action--secondary': i%2==5}" class="material-icons item-action--done list-icon--medium">done</span>
+            </div>
         </div>
         <div class="item add" (click)="addItemModal()">
             <p>Add item <span class="material-icons">add</span></p>

@@ -3,8 +3,9 @@
 :root {
     --primary: #008080;
     --secondary:#2F3240;
-    --light: #FFF;
-    --dark: #000;
+    --light-primary: #00e6e6;
+    --light: #F4F4F4;
+    --dark: #333333;
 }
 
 body { 

@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FirebaseService } from '../services/firebase.service';
 import { SessionService } from '../services/session.service';
-import { ListService } from '../services/list.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 
@@ -15,22 +14,23 @@ export class ListComponent implements OnInit {
   @ViewChild('modal') modal: ElementRef;
 
   public list;
-  public itemName: string = '';
+  public user;
+  public newItemName: string = '';
 
   constructor(
     private firebaseService: FirebaseService,
     private sessionService: SessionService,
     private cookieService: CookieService,
-    private listService: ListService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.list = this.listService.getSelectedList();
+    this.user = this.sessionService.getUser();
+    this.list = this.user.selectedList;
   }
 
   public exitList() {
-    this.listService.unsetSelectedList();
+    this.sessionService.unsetSelectedList();
     this.router.navigateByUrl('/home');
   }
 

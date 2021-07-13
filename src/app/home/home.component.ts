@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FirebaseService } from '../services/firebase.service';
 import { SessionService } from '../services/session.service';
-import { ListService } from '../services/list.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -25,7 +24,6 @@ export class HomeComponent implements OnInit {
   constructor(
     private firebaseService: FirebaseService,
     private sessionService: SessionService,
-    private listService: ListService,
     private router: Router
   ) { }
 
@@ -35,7 +33,8 @@ export class HomeComponent implements OnInit {
   }
 
   public viewList(listLocation: number) {
-    this.listService.setSelectedList(this.lists[listLocation], listLocation);
+    this.sessionService.setSelectedIndex(listLocation);
+    this.sessionService.setSelectedList(this.lists[listLocation]);
     this.router.navigateByUrl('/list');
   }
 
@@ -49,6 +48,10 @@ export class HomeComponent implements OnInit {
   }
 
   public finishCreate(user, newListName) {
+    if (newListName === '') {
+      this.errors.listName = 'A list must have a name.';
+      return;
+    }
     // add item to lists
     if (this.firebaseService.addList(user, newListName)) {
       this.errors.listName = '';

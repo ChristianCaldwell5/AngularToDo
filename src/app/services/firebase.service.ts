@@ -3,7 +3,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, Subject } from 'rxjs';
 import firebase from 'firebase/app';
 import { SessionService } from '../services/session.service';
-import { ListService } from '../services/list.service';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +13,6 @@ export class FirebaseService {
     
     constructor (
         public firestore: AngularFirestore,
-        public listService: ListService,
         public sessionService: SessionService
     ) {}
 
@@ -84,8 +82,9 @@ export class FirebaseService {
             "active": false,
             "items": []
         }
-        this.sessionService.updateList(item);
-        this.listService.setSelectedList(item, user.lists.length-1);
+        this.sessionService.updateLists(item);
+        this.sessionService.setSelectedList(item);
+        this.sessionService.setSelectedIndex(user.lists.length-1);
         let docRef = this.firestore.collection('users').doc(user.id);
         docRef.update({
             lists: firebase.firestore.FieldValue.arrayUnion(item)
@@ -97,11 +96,11 @@ export class FirebaseService {
         let docRef = this.firestore.collection('users').doc(user.id);
         this.firestore.collection('users').doc(user.id).get().subscribe(res => {
             let localLists = res.get('lists');
-            localLists[this.listService.getSelectedIndex()].items = localLists[this.listService.getSelectedIndex()].items.concat(item);
+            localLists[this.sessionService.getSelectedIndex()].items = localLists[this.sessionService.getSelectedIndex()].items.concat(item);
             docRef.update({
                 lists: localLists
             });
-            this.listService.updateListCookie(localLists[this.listService.getSelectedIndex()]);
+            this.sessionService.updateSeledtedList(localLists, this.sessionService.getSelectedIndex())
         });
     }
 

@@ -16,7 +16,7 @@
 .arsenal-progress-prefill {
     position: inherit;
     display: inline-block;
-    width: 5%;
+    width: 20px;
     background-color: var(--primary);
     height: 15px;
 }
