@@ -287,6 +287,9 @@ select:focus {
     .arsenal-login-wrapper {
         width: 95%;
     }
+    .arsenal-modal {
+        width: 95%;
+    }
 }
 @media (max-width: 850px) and (orientation : landscape) {
     .arsenal-login-wrapper {
@@ -298,6 +301,9 @@ select:focus {
 @media (min-width: 481px) and (max-width: 768px) {
     .arsenal-login-wrapper {
         width: 80%;
+    }
+    .arsenal-modal {
+        width: 95%;
     }
 }
 @media (min-width: 769px) and (max-width: 1024px) {

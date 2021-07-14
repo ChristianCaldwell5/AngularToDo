@@ -8,8 +8,6 @@ import { SessionService } from '../services/session.service';
     providedIn: 'root'
 })
 export class FirebaseService {
-
-    public hashedPass: string;
     
     constructor (
         public firestore: AngularFirestore,
@@ -85,10 +83,20 @@ export class FirebaseService {
         this.sessionService.updateLists(item);
         this.sessionService.setSelectedList(item);
         this.sessionService.setSelectedIndex(user.lists.length-1);
-        let docRef = this.firestore.collection('users').doc(user.id);
+        const docRef = this.firestore.collection('users').doc(user.id);
         docRef.update({
             lists: firebase.firestore.FieldValue.arrayUnion(item)
         });
+        return true;
+    }
+
+    public deleteList(user): boolean {
+
+        const docRef = this.firestore.collection('users').doc(user.id);
+        docRef.update({
+            lists: firebase.firestore.FieldValue.arrayRemove(user.selectedList)
+        });
+
         return true;
     }
 
@@ -100,8 +108,21 @@ export class FirebaseService {
             docRef.update({
                 lists: localLists
             });
-            this.sessionService.updateSeledtedList(localLists, this.sessionService.getSelectedIndex())
+            this.sessionService.updateSeledtedList(localLists, this.sessionService.getSelectedIndex());
         });
+    }
+
+    public deleteItem(user, itemToDelete): boolean {
+        const docRef = this.firestore.collection('users').doc(user.id);
+        this.firestore.collection('users').doc(user.id).get().subscribe(res => {
+            let localLists = res.get('lists');
+            localLists[this.sessionService.getSelectedIndex()].items = localLists[this.sessionService.getSelectedIndex()].items.filter(item => item.name !== itemToDelete.name);
+            docRef.update({
+                lists: localLists
+            });
+            this.sessionService.updateSeledtedList(localLists, this.sessionService.getSelectedIndex());
+        });
+        return true;
     }
 
 }

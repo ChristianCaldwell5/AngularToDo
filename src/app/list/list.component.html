@@ -1,4 +1,4 @@
-<!-- Modal -->
+<!-- New Item Modal -->
 <div #modal class="arsenal-modal-container">
     <div class="arsenal-modal">
         <div class="arsenal-header-wrap">
@@ -15,6 +15,18 @@
     </div>
 </div>
 
+<!-- Settings Modal -->
+<div #settingModal class="arsenal-modal-container">
+    <div class="arsenal-modal">
+        <div class="arsenal-header-wrap">
+            <h1 class="heading--large">List Settings</h1>
+            <span (click)="closeSettings()" class="material-icons arsenal-button--right a-fs--4em">clear</span>
+            <button (click)="deleteList()" class="arsenal-button--primary a-mt--20">Delete List</button>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
 <div class="arsenal-content a-mt--50">
     <button class="arsenal-back a-mb--20" (click)="exitList()">
         <span class="material-icons list-icon list-icon--light">chevron_left</span>
@@ -23,15 +35,15 @@
     <div class="list-header">
         <h1 class="heading--medium">{{list.name}}</h1>
         <div>
-            <span class="material-icons list-icon list-icon--dark list-icon--animate">settings</span>
-            <span class="material-icons list-icon list-icon--dark">add</span>
+            <span (click)="openSettings()" class="material-icons list-icon list-icon--dark list-icon--animate">settings</span>
+            <span (click)="addItemModal()" class="material-icons list-icon list-icon--dark">add</span>
         </div>
     </div>
     <div class="list">
         <div class="item" *ngFor="let item of list.items; let i = index">
             <p>{{item.name}}</p>
             <div class="item-action">
-                <span [ngClass]="{'item-action--light': i%2==0, 'item-action--secondary': i%2==5}" class="material-icons item-action--done list-icon--medium">done</span>
+                <span (click)="deleteItem(i)" [ngClass]="{'item-action--light': i%2===0, 'item-action--secondary': i%2===1}" class="material-icons item-action--done list-icon--medium">done</span>
             </div>
         </div>
         <div class="item add" (click)="addItemModal()">

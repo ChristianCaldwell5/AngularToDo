@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
 
   public newListName: string = '';
 
+  // all errors possible for user on this component
   public errors = {
     listName: ''
   }

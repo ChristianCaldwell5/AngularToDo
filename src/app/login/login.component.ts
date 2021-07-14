@@ -11,7 +11,7 @@ import * as bcrypt from 'bcryptjs';
 })
 export class LoginComponent implements OnInit {
 
-  // errors object
+  // all errors possible for user on this component
   public errors = {
     username: '',
     password: '',

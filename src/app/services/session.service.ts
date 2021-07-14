@@ -33,6 +33,7 @@ export class SessionService {
     // this.cookieService.set('user', JSON.stringify(this.activeUser));
   }
 
+  // TODO: Remove this and rename setLists function to this named function
   public updateLists(item): void {
     this.activeUser.lists = this.activeUser.lists.concat(item);
     sessionStorage.setItem("user", JSON.stringify(this.activeUser))
@@ -60,6 +61,10 @@ export class SessionService {
     this.activeUser.selectedList = this.activeUser.lists[selectdIndex];
     sessionStorage.setItem("user", JSON.stringify(this.activeUser))
     // this.cookieService.set('user', JSON.stringify(this.activeUser));
+  }
+
+  public setLists(lists): void {
+    this.activeUser.lists = lists;
   }
 
   public unsetSelectedList(): void {
