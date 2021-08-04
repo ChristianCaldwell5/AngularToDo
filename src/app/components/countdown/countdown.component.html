@@ -1,0 +1,5 @@
+<div class="countdown">
+    <span class="a-mr--10 countdown-number">{{remaining}}</span>
+    <p *ngIf="remaining>1" class="countdown-text">items remaining</p>
+    <p *ngIf="remaining<=1" class="countdown-text">item remaining</p>
+</div>

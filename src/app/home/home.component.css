@@ -24,7 +24,7 @@
     width: 100%;
     margin-top: 60px;
     border-bottom: 2px solid black;
-    overflow: auto;
+    overflow: hidden;
 }
 
 /* List Card Styles */
@@ -76,15 +76,15 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 2px solid var(--primary);
+    border-bottom: 2px solid var(--light-primary);
 }
 .list-peek {
-    font-size: 1em;
+    font-size: 1.5em;
     color: white;
 }
 
 .list-add-icon {
-    color: var(--primary);
+    color: var(--light-primary);
 }
 
 .list-add--row {
@@ -96,7 +96,7 @@
 }
 .list-add--icon {
     font-size: 4em;
-    color: var(--primary);
+    color: var(--light-primary);
 }
 .list-add--row>div {
     flex: 33.33%;

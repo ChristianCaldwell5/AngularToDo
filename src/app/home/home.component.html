@@ -2,14 +2,14 @@
 <div #modal class="arsenal-modal-container">
     <div class="arsenal-modal">
         <div class="arsenal-header-wrap">
-            <h1 class="heading--large">Create List</h1>
+            <h1 class="heading--large">Add List</h1>
             <span (click)="cancelCreate()" class="material-icons arsenal-button--right a-fs--4em">clear</span>
             <label class="arsenal-label a-mt--20">Name</label>
             <input class="arsenal-full-input"
                     type="text"
                     [(ngModel)]="newListName"
                     placeholder="">
-            <p *ngIf="errors.listName" class="arsenal-para--error a-mt--20">{{errors.listName}}</p>
+            <p *ngIf="errors.listName" class="arsenal-para--error a-mt--10">{{errors.listName}}</p>
             <button (click)='finishCreate(user, newListName)' class="arsenal-button--primary a-mt--20">Create</button>
         </div>
     </div>
@@ -45,8 +45,8 @@
                     <p *ngIf='list.items.length == 0' class="list-peek a-mt--15">No items in this list right now.</p>
                     <p *ngIf='list.items.length == 0' class="a-mt--15">Click this card to add a task!</p>
                     <!-- Has Items -->
-                    <p *ngIf='list.items.length != 0' class="list-peek a-mt--15 a-mb--15">Next up: {{list.items[0].name}}</p>
-                    <app-progress-bar *ngIf='list.items.length != 0' [stages]="list.items"></app-progress-bar>
+                    <p *ngIf='list.items.length != 0' class="list-peek a-mt--10 a-mb--10">Next up: {{list.items[0].name}}</p>
+                    <app-countdown *ngIf='list.items.length != 0' [stages]="list.items"></app-countdown>
                 </div>
             </ng-container>
             <div class="list-card list-card--add" (click)="createListModal()">

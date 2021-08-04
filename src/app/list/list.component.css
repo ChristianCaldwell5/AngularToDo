@@ -53,13 +53,44 @@
 .item:nth-child(2n+1)>p {
     color: var(--light);
 }
+.item-due:nth-child(2n+1)>p {
+    color: var(--light);
+    margin: 0;
+}
+.item:nth-child(2n+1)>div>p {
+    color: var(--light);
+}
+.item-due:nth-child(2n+1)>div>p {
+    color: var(--light);
+    margin: 0;
+}
 .item:nth-child(2n) {
     background-color: rgba(255, 255, 255, 0.60);
     border-color: var(--dark);
 }
-.item:nth-child(2n) {
+.item:nth-child(2n)>p {
+    color: var(--dark) !important;
+}
+.item-due:nth-child(2n)>p {
+    color: var(--dark) !important;
+    margin: 0;
+}
+.item:nth-child(2n)>div>p {
+    color: var(--dark) !important;
+}
+.item-due:nth-child(2n)>div>p {
+    color: var(--dark) !important;
+    margin: 0;
+}
+
+.item:nth-child(2n)>.item-action>div>p {
     color: var(--dark);
 }
+.item:nth-child(2n+1)>.item-action>div>p {
+    color: var(--light);
+    margin: 0;
+}
+
 .item>p {
     margin: 0;
 }
@@ -70,6 +101,12 @@
 .item-action {
     display: flex;
     flex-direction: row;
+}
+.item-due {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 .item-action--done {
     padding: 10px;
@@ -82,6 +119,11 @@
 .item-action--light {
     color: rgba(var(--secondary), 0.1) !important;
     background-color: var(--light) !important;
+}
+
+.mobile-due-date {
+    display: flex;
+    flex-direction: column;
 }
 
 @keyframes spin {

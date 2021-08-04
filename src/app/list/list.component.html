@@ -4,13 +4,24 @@
         <div class="arsenal-header-wrap">
             <h1 class="heading--large">Add Item</h1>
             <span (click)="cancelAddItem()" class="material-icons arsenal-button--right a-fs--4em">clear</span>
-            <label class="arsenal-label a-mt--20">Item name</label>
+            <!-- Item Name -->
+            <label class="arsenal-label a-mt--20">Item Name</label>
             <input class="arsenal-full-input"
                     type="text"
                     [(ngModel)]="newItemName"
                     placeholder="">
-            <p class="arsenal-para--error a-mt--20"></p>
-            <button (click)="createNewItem(newItemName)" class="arsenal-button--primary a-mt--20">Create</button>
+            <p *ngIf="errors.itemName" class="arsenal-para--error a-mt--10">{{errors.itemName}}</p>
+            <!-- Item Due Date (optional) -->
+            <label class="arsenal-label a-mt--20">Due Date (<span class="a-italic">optional</span> )</label>
+            <app-date-select (clearDate)="false" (dateEvent)="setSelectedDate($event)"></app-date-select>
+            <ng-container *ngIf="newItem.dueDate">
+                <label class="arsenal-label a-mt--20">Time (<span class="a-italic">optional</span> )</label>
+                <input class="arsenal-full-input"
+                        type="time"
+                        [(ngModel)]="newItemTime"
+                        placeholder="">
+            </ng-container>
+            <button (click)="createNewItem()" class="arsenal-button--primary a-mt--20">Create</button>
         </div>
     </div>
 </div>
@@ -19,7 +30,7 @@
 <div #settingModal class="arsenal-modal-container">
     <div class="arsenal-modal">
         <div class="arsenal-header-wrap">
-            <h1 class="heading--large">List Settings</h1>
+            <h1 class="heading--large">Settings</h1>
             <span (click)="closeSettings()" class="material-icons arsenal-button--right a-fs--4em">clear</span>
             <button (click)="deleteList()" class="arsenal-button--primary a-mt--20">Delete List</button>
         </div>
@@ -41,8 +52,17 @@
     </div>
     <div class="list">
         <div class="item" *ngFor="let item of list.items; let i = index">
-            <p>{{item.name}}</p>
+            <div *ngIf="isMobile" class="mobile-due-date">
+                <p class="a-m--0">{{item.name}}</p>
+                <p *ngIf="item.dueDate" class="a-m--0 a-fs--18">{{item.dueDate | date : 'mediumDate'}} <span *ngIf="item.time">| {{item.time}}</span></p>
+            </div>
+            <ng-container *ngIf="!isMobile">
+                <p class="a-m--0">{{item.name}}</p>
+            </ng-container>
             <div class="item-action">
+                <div *ngIf="item.dueDate && !isMobile" class="item-due a-mr--15">
+                    <p class="a-m--0">{{item.dueDate | date : 'longDate'}} <span *ngIf="item.time">| {{item.time}}</span></p>
+                </div>
                 <span (click)="deleteItem(i)" [ngClass]="{'item-action--light': i%2===0, 'item-action--secondary': i%2===1}" class="material-icons item-action--done list-icon--medium">done</span>
             </div>
         </div>

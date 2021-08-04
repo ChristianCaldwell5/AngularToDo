@@ -1,0 +1,60 @@
+::ng-deep .mat-form-field {
+    width: 100% !important;
+}
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+    border: 2px solid var(--primary) !important;
+    border-radius: 15px !important;
+    color: var(--light) !important;
+    background-color: rgba(0, 0, 0, 0.95) !important;
+    padding: 5px 5px 5px 20px !important;
+}
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-infix {
+    padding: 0 !important;
+}
+::ng-deep .mat-form-field-infix {
+    border-top: none !important;
+    font-size: 2em !important;
+}
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-underline::before {
+    background-color: unset !important;
+}
+::ng-dep .mat-form-field-ripple {
+    display: none !important;
+}
+::ng-deep .mat-form-field-wrapper {
+    padding: 0 !important;
+}
+::ng-deep .mat-form-field-flex {
+    align-items: center !important;
+}
+::ng-deep .mat-form-field-label {
+    color: var(--light) !important;
+    font-size: 18px !important;
+}
+::ng-deep .mat-form-field.mat-focused .mat-form-field-ripple {
+    background-color: unset !important;
+}
+::ng-deep .mat-input-element {
+    color: var(--light) !important;
+}
+::ng-deep .mat-form-field-underline {
+    position: unset !important;
+    width: unset !important;
+    pointer-events: unset !important;
+    transform: unset !important;
+    display: none !important;
+}
+::ng-deep .mat-input-element {
+    caret-color: var(--light);
+}
+::ng-deep .mat-calendar-body-cell-content:hover {
+    background-color: var(--light-primary) !important;
+}
+::ng-deep .mat-calendar-body-selected {
+    background-color: var(--primary) !important;
+}
+::ng-deep .mat-datepicker-toggle-default-icon {
+    fill: var(--light) !important;
+    width: 30px !important;
+    height: 30px !important;
+}
