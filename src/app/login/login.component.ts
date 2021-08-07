@@ -83,20 +83,6 @@ export class LoginComponent implements OnInit {
   //   }
   // }
 
-  public signUp(): void {
-    this.sessionService.setUser(this.newUser);
-    this.firebaseService.createUser(this.newUser)
-    .then(
-      res => {
-        this.clearFields();
-        this.isCompletedSignUp = true;
-      },
-      error => {
-        this.errors.siteFail = "Looks like we had trouble creating your account :( Please try again later!";
-      }
-    )
-  }
-
   private validateUsername(username: string): boolean {
     // this.checkUsernameAvailability(username);
     if (this.usernameAvailabilityMsg) {
@@ -192,8 +178,22 @@ export class LoginComponent implements OnInit {
     this.clearFields();
   }
 
-  public async continue(): Promise<void> {
+  public continue() {
     this.router.navigateByUrl('/home');
+  }
+
+  public signUp(): void {
+    this.sessionService.setUser(this.newUser);
+    this.firebaseService.createUser(this.newUser)
+    .then(
+      res => {
+        this.clearFields();
+        this.isCompletedSignUp = true;
+      },
+      error => {
+        this.errors.siteFail = "Looks like we had trouble creating your account :( Please try again later!";
+      }
+    )
   }
 
   public login(): void {
@@ -207,7 +207,9 @@ export class LoginComponent implements OnInit {
       });
       if (bcrypt.compareSync(this.lPassword, pass)) {
         this.sessionService.setUser(this.returningUser);
-        this.continue();
+        this.router.navigate(['/home']).then(() => {
+          window.location.reload();
+        });
       } else {
         this.clearFields();
         this.errors.failedLogin = 'Username or password is incorrect :( Try again?';

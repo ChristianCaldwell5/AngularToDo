@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FirebaseService } from '../services/firebase.service';
 import { SessionService } from '../services/session.service';
+import { ServiceWorkerModule, SwPush } from '@angular/service-worker';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,6 +18,8 @@ export class HomeComponent implements OnInit {
 
   public newListName: string = '';
 
+  // readonly VAPID_PUBLIC_KEY = "BM--PQ2obxiuQzqh-_p8ww5hRsA2o3r3Thttv1ANqGA64MM6ax-QcCPm7DpMd3uGCj-NChb2VjVF4gt8_ngz2Qw";
+
   // all errors possible for user on this component
   public errors = {
     listName: ''
@@ -25,10 +28,15 @@ export class HomeComponent implements OnInit {
   constructor(
     private firebaseService: FirebaseService,
     private sessionService: SessionService,
+    private swPush: SwPush,
     private router: Router
   ) { }
 
   ngOnInit(): void {
+    // TODO: Request notification prompt
+    // this.swPush.requestSubscription({
+    //   serverPublicKey: this.VAPID_PUBLIC_KEY
+    // })
     this.user = this.sessionService.getUser();
     this.lists = this.user.lists;
   }
@@ -65,5 +73,4 @@ export class HomeComponent implements OnInit {
       this.errors.listName = 'It looks like a list with this name already exists.'
     }
   }
-
 }

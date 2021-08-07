@@ -40,7 +40,8 @@ export class FirebaseService {
                 {
                     "name": "24/7 List",
                     "active": false,
-                    "items": []
+                    "items": [],
+                    "recentlyCompleted": []
                 }
             ]
         });
@@ -51,7 +52,8 @@ export class FirebaseService {
                 {
                     "name": "24/7 List",
                     "active": false,
-                    "items": []
+                    "items": [],
+                    "recentlyCompleted": []
                 }
             ]
         }
@@ -78,7 +80,8 @@ export class FirebaseService {
         let item = {
             "name": listName,
             "active": false,
-            "items": []
+            "items": [],
+            "recentlyCompleted": []
         }
         this.sessionService.updateLists(item);
         this.sessionService.setSelectedList(item);
@@ -116,9 +119,15 @@ export class FirebaseService {
         const docRef = this.firestore.collection('users').doc(user.id);
         this.firestore.collection('users').doc(user.id).get().subscribe(res => {
             let localLists = res.get('lists');
+            let recentlyCompleted = localLists[this.sessionService.getSelectedIndex()].recentlyCompleted;
+            if (recentlyCompleted.length >= 5) {
+                recentlyCompleted.pop();
+            }
+            recentlyCompleted.unshift(itemToDelete);
             localLists[this.sessionService.getSelectedIndex()].items = localLists[this.sessionService.getSelectedIndex()].items.filter(item => item.name !== itemToDelete.name);
             docRef.update({
-                lists: localLists
+                lists: localLists,
+                recentlyCompleted: recentlyCompleted
             });
             this.sessionService.updateSeledtedList(localLists, this.sessionService.getSelectedIndex());
         });

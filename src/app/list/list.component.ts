@@ -21,6 +21,8 @@ export class ListComponent implements OnInit {
   public newItemTime: string = '';
   public isMobile: boolean;
 
+  public editingReplayFlag = {replay: false, index: 0}
+
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?) {
     this.isMobile = window.innerWidth < 1030;
@@ -103,6 +105,10 @@ export class ListComponent implements OnInit {
     this.modal.nativeElement.style.display = 'none';
     // add to frontend 
     this.list.items = this.list.items.concat(this.newItem);
+    // remove from recents if this was an added item from recent lsit
+    if (this.editingReplayFlag.replay) {
+      this.list.recentlyCompleted.splice(this.editingReplayFlag.index, 1);
+    }
     // clear modal 
     this.clearAddModal();
     console.log("Updated items: ", this.list.items);
@@ -112,6 +118,13 @@ export class ListComponent implements OnInit {
     // delete list item from backend
     this.firebaseService.deleteItem(this.user, this.list.items[index]);
     // update list on frontend
+    let tempRecent = this.list.recentlyCompleted;
+    if (tempRecent.length >= 5) {
+      tempRecent.pop();
+    }
+    tempRecent.unshift(this.list.items[index]);
+    console.log(tempRecent)
+    this.list.recentlyCompleted = tempRecent;
     this.list.items = this.list.items.filter(item => item.name !== this.list.items[index].name);
   }
 
@@ -126,7 +139,15 @@ export class ListComponent implements OnInit {
     this.router.navigateByUrl('/home');
   }
 
+  // reuse a recently completed item
+  public replayItem(index): void {
+    this.newItemName = this.list.recentlyCompleted[index].name;
+    this.editingReplayFlag = {replay: true, index: index}
+    this.addItemModal()
+  }
+
   public clearAddModal(): void {
+    this.editingReplayFlag = {replay: false, index: 0};
     this.newItemName = "";
     this.newItemTime = "";
     this.generalService.clearDate.next(true)

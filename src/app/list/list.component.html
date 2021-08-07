@@ -71,3 +71,31 @@
         </div>
     </div>
 </div>
+<!-- Recently completed -->
+<div *ngIf="list.recentlyCompleted.length !== 0" class="arsenal-content a-mt--50">
+    <div class="list-header">
+        <h1 class="heading--small">Recently Completed</h1>
+        <!-- <div>
+            <span (click)="openSettings()" class="material-icons list-icon list-icon--dark list-icon--animate">settings</span>
+            <span (click)="addItemModal()" class="material-icons list-icon list-icon--dark">add</span>
+        </div> -->
+    </div>
+    <div class="list">
+        <p *ngIf="list.recentlyCompleted.length === 0">No recently completed items.</p>
+        <div class="item" *ngFor="let recent of list.recentlyCompleted; let i = index">
+            <div *ngIf="isMobile" class="mobile-due-date">
+                <p class="a-m--0">{{recent.name}}</p>
+                <p *ngIf="recent.dueDate" class="a-m--0 a-fs--18">{{recent.dueDate | date : 'mediumDate'}} <span *ngIf="recent.time">| {{recent.time}}</span></p>
+            </div>
+            <ng-container *ngIf="!isMobile">
+                <p class="a-m--0">{{recent.name}}</p>
+            </ng-container>
+            <div class="item-action">
+                <div *ngIf="recent.dueDate && !isMobile" class="item-due a-mr--15">
+                    <p class="a-m--0">{{recent.dueDate | date : 'longDate'}} <span *ngIf="recent.time">| {{recent.time}}</span></p>
+                </div>
+                <span (click)="replayItem(i)" [ngClass]="{'item-action--light': i%2===0, 'item-action--secondary': i%2===1}" class="material-icons item-action--done list-icon--medium">replay</span>
+            </div>
+        </div>
+    </div>
+</div>
